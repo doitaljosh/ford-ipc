@@ -1,0 +1,24 @@
+# ASIL-B-oriented hardening changes — 2026-10-03
+
+- Added fixed-capacity `FixedText<N>` and removed heap-backed strings from shared runtime state.
+- Replaced popup door-detail strings with `DoorPopupDetail` enum.
+- Added explicit Normal / Degraded / SafeState fault reaction classification.
+- Added CAN accepted-data heartbeat distinct from CAN thread heartbeat.
+- Converted watchdog heartbeat storage from floating-point atomics to monotonic integer milliseconds.
+- Added clock-regression, shared-state, popup-overflow, watchdog-start and receiver-start fault reporting.
+- Added fail-silent display policy that invalidates stale/dynamic values on safe-state faults.
+- Added UI integrity overlay for safe-state and degraded state.
+- Added `trySnapshot` / `tryMutate` bounded-state access paths and decoder `StateAccessFailure` result.
+- Added saturating frame/OK counters where runtime counters could otherwise wrap.
+- Hardened plausibility checking for vehicle, lane, lead-target, warning and timing state.
+- Made protocol/safety/CAN/core static linkage the hardened default.
+- Added `FORD_ADAS_BUILD_UI=OFF` core-only verification build.
+- Expanded strict compiler diagnostics and retained `-Werror`.
+- Added fixed-text and expanded safety tests.
+- Updated sanitizer safety check to run without requiring SDL development packages.
+- Core strict build and 8/8 CTests pass; ASan/UBSan build and 8/8 CTests pass in the supplied build environment.
+- Bounded shared-state lock acquisition to 5 ms on live paths; timeout is reported as `SharedStateAccess` rather than blocking indefinitely.
+- Added SocketCAN controller-error subscription for bus-off, controller-state, and restart events; these latch `CanTransport`.
+- Added an allocation/font/asset-independent emergency HMI fallback using SDL primitives after runtime rendering/resource failure.
+- Replaced C `assert()` in verification code with always-active `FORD_REQUIRE`, so Release/NDEBUG test builds retain all checks.
+- Strict Release core build and 8/8 CTests pass with the same active verification assertions.
